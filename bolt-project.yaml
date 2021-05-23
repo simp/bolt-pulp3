@@ -4,3 +4,4 @@ modules:
 - name: puppetlabs-stdlib
 - name: nwops-debug
 - name: puppet-format
+- name: puppetlabs-device_manager

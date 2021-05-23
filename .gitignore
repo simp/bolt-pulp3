@@ -1,6 +1,5 @@
 .git/
 .*.sw[op]
-*.log
 .metadata
 .yardoc
 .yardwarns
@@ -11,12 +10,13 @@
 /coverage/
 /bin/
 /doc/
-/data/LOCAL.yaml
-/data/local.yaml
 /Gemfile.local
 /Gemfile.lock
 /junit/
 /log/
+*.log
+*.iso
+_*
 /pkg/
 /spec/fixtures/manifests/
 /spec/fixtures/modules/
@@ -28,5 +28,3 @@
 .project
 .envrc
 /inventory.yaml
-/.modules/
-/.resource_types/
