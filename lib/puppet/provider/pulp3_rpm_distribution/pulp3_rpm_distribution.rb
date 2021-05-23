@@ -15,7 +15,7 @@ class Puppet::Provider::Pulp3RpmDistribution::Pulp3RpmDistribution < Puppet::Res
   #     to the user.
   #
   def get(context)
-    distros = context.device.get('/distributions/rpm/rpm', context.device.connection)
+    distros = context.device.pulp3_api_get('/distributions/rpm/rpm', context.device.connection)
     results = distros.map do |x|
       x.transform_keys(&:to_sym).select do |y|
         %i[name publication base_path pulp_labels pulp_href].include?(y)
@@ -25,14 +25,33 @@ class Puppet::Provider::Pulp3RpmDistribution::Pulp3RpmDistribution < Puppet::Res
   end
 
   def create(context, name, should)
-    context.notice("Creating '#{name}' with #{should.inspect}")
+    context.device.pulp3_api_post( '/distributions/rpm/rpm',
+      context.device.connection,
+      should.reject{|k,v| k == :ensure}
+    )
+    require 'pry'; binding.pry
   end
 
-  def update(context, name, should)
-    context.notice("Updating '#{name}' with #{should.inspect}")
+  def set(context, changes)
+    changes.each do |name,change|
+      if change.key?(:is) && change.key?(:should)
+        context.updating(name, message: 'Update') do
+          update(context, name, change[:should], change[:is])
+        end
+      else
+        require 'pry'; binding.pry
+      end
+    end
   end
-
-  def delete(context, name)
-    context.notice("Deleting '#{name}'")
+  def update(context, name, should, is)
+    context.device.pulp3_api_put(
+      is[:pulp_href],
+      context.device.connection,
+      should.reject{|k,v| k == :ensure}
+    )
   end
+#
+#  def delete(context, name)
+#    context.notice("Deleting '#{name}'")
+#  end
 end

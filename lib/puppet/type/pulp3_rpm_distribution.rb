@@ -22,7 +22,9 @@ these lines.
 **Autorequires**:
 * `Package[foo]`
 EOS
-  features: [],
+  features: [
+    'remote_resource' # Avoid `Skipping host resources because running on a device`
+  ],
   attributes: {
     ensure: {
       type: 'Enum[present, absent]',
@@ -35,12 +37,12 @@ EOS
       behaviour: :namevar,
     },
     publication: {
-      type: 'String',
+      type: 'Optional[String]',
       desc: 'Unique name of RPM Publication to be served',
     },
     base_path: {
       type: 'Optional[String]',
-      desc: 'Path component of the published url. Avoid paths that overlap with other distribution base paths (e.g. "foo" and "foo/bar")',
+      desc: 'Path component of the published url.  If not provided, defaults to `name`. Avoid paths that overlap with other distribution base paths (e.g. "foo" and "foo/bar")',
     },
     pulp_labels: {
       type: 'Hash[String,String,0]',
