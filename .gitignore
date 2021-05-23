@@ -20,6 +20,7 @@ _*
 /pkg/
 /spec/fixtures/manifests/
 /spec/fixtures/modules/
+/spec/fixtures/device.conf
 /tmp/
 /vendor/
 /convert_report.txt
