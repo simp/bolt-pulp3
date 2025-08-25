@@ -6,7 +6,7 @@ git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
 # gem "rails"
 gem 'pulpcore_client', '~> 3.22.2'
-gem 'pulp_rpm_client', '~> 3.19.0'
+gem 'pulp_rpm_client', '~> 3.32.0'
 gem 'bindata'
 gem 'down'
 gem 'logging'
