@@ -42,6 +42,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Bumped the pulp image to fix EPEL issues
 - Mirrored Module streams did not have default profiles or groups
 - Duplicate RPM errors when using `direct_url` on new pulp instance
+- `slim-pulp-repo-copy.rb` no longer uses port 0 when run under
+  `bundle exec` without `PULP_PORT`
 
 ## [0.3.0] - 2021-08-26
 

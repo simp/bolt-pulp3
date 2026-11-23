@@ -19,6 +19,9 @@ env \
   -u RUBYSHELL \
   -u LD_LIBRARY_PATH \
   -u LD_PRELOAD \
+  -u BUNDLE_GEMFILE \
+  -u BUNDLER_SETUP \
+  -u BUNDLE_BIN_PATH \
   BOLT_ORIG_GEM_PATH=$GEM_PATH \
   BOLT_ORIG_GEM_HOME=$GEM_HOME \
   BOLT_ORIG_RUBYLIB=$RUBYLIB \
@@ -30,7 +33,14 @@ env \
 CLEAN_BOLT_ENV
 ).gsub(/\s+/, ' ').strip
 
-PULP_HOST = "http://localhost:#{ENV['PULP_PORT'] || `#{BOLT_CMD} lookup --plan-hierarchy pulp3::server_port`.strip.to_i || 8080}"
+def pulp_port
+  return ENV['PULP_PORT'] if ENV['PULP_PORT']
+
+  port = `#{BOLT_CMD} lookup --plan-hierarchy pulp3::server_port`.strip.to_i
+  ($?.success? && port.positive?) ? port : 8080
+end
+
+PULP_HOST = "http://localhost:#{pulp_port}"
 
 # Mirrors & copies RPMs from multiple repos into "slim" subset repositories,
 #   including all RPM and modular dependencies.
